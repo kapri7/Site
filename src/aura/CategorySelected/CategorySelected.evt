@@ -1,0 +1,3 @@
+<aura:event type="COMPONENT" description="Event of category selection">
+    <aura:attribute name="categoryId" type="Id"/>
+</aura:event>

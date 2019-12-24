@@ -1,0 +1,17 @@
+<aura:component implements="flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes" access="global" >
+    <aura:attribute name="categoryId" type="Id"/>
+    <aura:attribute name="orders" type="Product__c[]"/>
+    <aura:handler name="categorySelected" event="c:CategorySelected"
+                  action="{!c.handleCategorySelection}"/>
+    <div class="slds-grid slds-gutters">
+        <div class="slds-col slds-size_1-of-4">
+            <c:Categories/>
+        </div>
+        <div class="slds-col slds-size_3-of-4">
+            <c:Products aura:id="productsCmp" categoryId="{!v.categoryId}" orders = "{!v.orders}"/>
+        </div>
+    </div>
+    <lightning:button variant="base" label="Admin" onclick="{!c.toAdminPage }"/>
+    <c:Admin aura:id="adminCmp"/>
+    <!--<c:OrderDetails/>-->
+</aura:component>

@@ -1,0 +1,87 @@
+<aura:component controller="OrderLineItemController" implements="flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes" access="global" >
+
+
+
+	<lightning:layout class="slds-page-header slds-page-header--object-home">
+		<lightning:layoutItem>
+			<lightning:buttonIcon iconName="utility:cart" variant="bare" size="large" onclick="{!c.openModel}" alternativeText="My Purchases"/>
+		</lightning:layoutItem>
+		<!--<lightning:layoutItem>
+			<lightning:button variant="base" label="Admin" title="Base action" onclick="{!c.toAdminPage }"/>
+		</lightning:layoutItem>-->
+	</lightning:layout>
+
+		<aura:attribute name="isOpen" type="boolean" default="false"/>
+		<aura:attribute name="orders" type="Product__c[]"/>
+		<aura:attribute name="lineOrderItems" type="Order_Line_Item__c[]"/>
+		<aura:attribute name="totalPrice" type="Decimal" default="0"/>
+		<aura:attribute name="orderItem" type="Order_Line_Item__c" default="{}"/>
+
+
+		<div class="slds-m-around_xx-large">
+
+
+			<aura:if isTrue="{!v.isOpen}">
+
+
+				<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+					<div class="slds-modal__container">
+
+						<header class="slds-modal__header">
+							<lightning:buttonIcon iconName="utility:close"
+												  onclick="{! c.closeModel }"
+												  alternativeText="close"
+												  variant="bare-inverse"
+												  class="slds-modal__close"/>
+							<h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Orders</h2>
+						</header>
+
+						<div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+
+							<div class="slds-col">
+								<ul class="slds-has-dividers_top slds-has-block-links_space">
+									<aura:if isTrue="{!not(empty(v.orders))}">
+										<aura:iteration items="{!v.orders}" var="order">
+											<li class="slds-item">
+												<c:Order product="{!order}" orders="{!v.orders}" totalPrice="{!v.totalPrice}"/>
+											</li>
+										</aura:iteration>
+										<strong>
+											Total:{!v.totalPrice}
+										</strong>
+										<aura:set attribute="else">
+											<div class="slds-text-heading_large">
+												<strong>
+													There are not any orders!
+												</strong>
+											</div>
+										</aura:set>
+									</aura:if>
+								</ul>
+							</div>
+
+						</div>
+
+						<footer class="slds-modal__footer">
+							<lightning:button variant="neutral"
+											  label="Cancel"
+											  title="Cancel"
+											  onclick="{! c.closeModel }"/>
+							<lightning:button variant="brand"
+											  label="Clear"
+											  title="Clear"
+											  onclick="{! c.doClear }"/>
+							<lightning:button variant="brand"
+											  label="Purchase"
+											  title="Purchase"
+											  onclick="{! c.doPurchase }"/>
+						</footer>
+					</div>
+				</section>
+				<div class="slds-backdrop slds-backdrop_open"></div>
+
+
+			</aura:if>
+		</div>
+
+</aura:component>

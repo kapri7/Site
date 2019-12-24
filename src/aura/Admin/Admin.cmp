@@ -1,0 +1,34 @@
+<aura:component controller="OrdersController"
+                implements="force:appHostable,flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes"
+                access="global">
+
+    <aura:attribute name="orders" type="Order__c[]"/>
+    <aura:attribute name="columns" type="List"/>
+    <aura:attribute name="data" type="Object"/>
+    <aura:attribute name="order" type="Order__c[]"/>
+    <aura:attribute name="orderLineItems" type="Order_Line_Item__c[]"/>
+
+    <!--<aura:handler name="init" action="{!c.doInit}" value="{!this}"/>-->
+    <aura:handler name="orderChangeEvent" event="c:OrderChangeEvent" action="{!c.doInit}"/>
+
+    <aura:method name="init" action="{!c.doInit}"/>
+
+    <div class="slds-grid slds-gutters">
+        <div class="slds-col slds-size_2-of-6">
+            <lightning:datatable
+                    keyField="id"
+                    data="{! v.data }"
+                    columns="{! v.columns }"
+                    hideCheckboxColumn="true"
+                    onrowaction="{! c.handleRowAction }"/>
+        </div>
+        <div class="slds-col slds-size_4-of-6">
+            <aura:if isTrue="{!not(empty(v.order))}">
+                <c:OrderDetails orderId="{!v.order[0].Id}" orderLineItems="{!v.orderLineItems}"/>
+            </aura:if>
+        </div>
+    </div>
+
+
+
+</aura:component>

@@ -1,0 +1,74 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId">
+    <aura:attribute name="fields" type="String[]" default="['Name', 'Status__c', 'Order_price__c']" />
+    <aura:attribute name="orderId" type="Id"/>
+    <aura:attribute name="orders" type="Product__c"/>
+    <aura:attribute name="orderLineItems" type="Order_Line_Item__c[]"/>
+
+    <aura:registerEvent name="orderChangeEvent" type="c:OrderChangeEvent"/>
+
+    <lightning:recordForm
+            recordId="{!v.orderId}"
+            objectApiName="Order__c"
+            fields="{!v.fields}"
+            columns="1"
+            onsubmit="{!c.handleChange}"
+            mode="view" />
+
+    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+
+        <div class="slds-col">
+            <ul class="slds-has-dividers_top slds-has-block-links_space">
+                <aura:if isTrue="{!not(empty(v.orderLineItems))}">
+                    <aura:iteration items="{!v.orderLineItems}" var="item">
+                        <li class="slds-item">
+
+
+                            <div class="slds-grid slds-m-vertical_x-small">
+                                <div class="slds-align_absolute-center slds-col slds-size_3-of-12">
+                                    <img src="{!$Resource.ProductImages + '/images/' + item.Product__r.CreatedDate}"
+                                         style="max-height: 200px"/>
+                                </div>
+                                <div class="slds-col slds-size_6-of-12">
+                                    <div class="slds-grid slds-grid_vertical">
+                                        <div class="slds-col">
+                                            <div class="slds-text-heading_medium slds-m-bottom_x-small">{!item.Product__r}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-col slds-size_3-of-12">
+                                    <div class="slds-grid slds-grid_vertical">
+                                        <div class="slds-col">
+                                            <div class="slds-text-heading_medium slds-text-color_success">
+                                                <strong>
+                                                    $ {!item.Total_Price__c}
+                                                </strong>
+                                            </div>
+                                        </div>
+                                        <div class="slds-col">
+                                            <div class="slds-form-element">
+                                                <div class="slds-form-element__control slds-m-top_xx-small slds-size_1-of-1">
+                                                    <strong>
+                                                        Number: {!item.Total_Quantity__c}
+                                                    </strong>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </li>
+                    </aura:iteration>
+                    <aura:set attribute="else">
+                        <div class="slds-text-heading_large">
+                            <strong>
+                                There are not any orders!
+                            </strong>
+                        </div>
+                    </aura:set>
+                </aura:if>
+            </ul>
+        </div>
+    </div>
+</aura:component>

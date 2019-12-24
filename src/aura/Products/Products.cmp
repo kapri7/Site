@@ -1,0 +1,27 @@
+<aura:component controller="ProductsController"
+                implements="flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes" access="global">
+    <aura:attribute name="products" type="Product__c[]"/>
+    <aura:attribute name="categoryId" type="Id"/>
+    <aura:attribute name="orders" type="Product__c[]"/>
+    <aura:method name="initProducts" action="{!c.doInit}"/>
+    <div class="slds-grid slds-gutters">
+        <div class="slds-col">
+            <ul class="slds-has-dividers_top slds-has-block-links_space">
+                <aura:if isTrue="{!not(empty(v.products))}">
+                    <aura:iteration items="{!v.products}" var="product">
+                        <li class="slds-item">
+                            <c:Product product="{!product}" orders = "{!v.orders}" />
+                        </li>
+                    </aura:iteration>
+                    <aura:set attribute="else">
+                        <div class="slds-text-heading_large">
+                            <strong>
+                                No products for this category!
+                            </strong>
+                        </div>
+                    </aura:set>
+                </aura:if>
+            </ul>
+        </div>
+    </div>
+</aura:component>

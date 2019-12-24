@@ -1,0 +1,57 @@
+<!--
+ - Created by drive on 22.12.2019.
+ -->
+
+<aura:component description="Order" implements="flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes" access="global">
+    <aura:attribute name="product" type="Product__c" />
+    <aura:attribute name="orders" type="Product__c[]"/>
+    <aura:attribute name="totalPrice" type="Decimal"/>
+    <div class="slds-grid slds-m-vertical_x-small">
+
+        <div class="slds-align_absolute-center slds-col slds-size_3-of-12">
+
+            <img src="{!$Resource.ProductImages + '/images/' + v.product.Picture__c}"
+                 style="max-height: 200px"/>
+        </div>
+        <div class="slds-col slds-size_6-of-12">
+            <div class="slds-grid slds-grid_vertical">
+                <div class="slds-col">
+                    <div class="slds-text-heading_medium slds-m-bottom_x-small">{!v.product.Name}</div>
+                </div>
+                <div class="slds-col">
+                    <div class="slds-text-body_regular slds-text-font_monospace">{!v.product.Description__c} </div>
+                    <!--div class="slds-text-body_regular slds-text-font_monospace">{!v.product.Category__c} </div-->
+                </div>
+            </div>
+        </div>
+        <div class="slds-col slds-size_3-of-12">
+            <div class="slds-grid slds-grid_vertical">
+                <div class="slds-col">
+                    <div class="slds-text-heading_medium slds-text-color_success">
+                        <strong>
+                            $ {!v.product.Price__c * v.product.SelectedNumber__c}
+                        </strong>
+                    </div>
+                </div>
+                <div class="slds-col">
+                    <div class="slds-form-element">
+                        <div class="slds-form-element__control slds-m-top_xx-small slds-size_1-of-1">
+                            <input min="1" max="{!v.product.Quantity__c}" type="number" id="{!v.product.Name}"
+                                   placeholder="1"
+                                   required=""
+                                   class="slds-input"
+                                   value="{!v.product.SelectedNumber__c}"
+                                   onchange="{!c.updateSelectedNumber}"/>
+                            <lightning:button variant="bare-inverse"
+                                              label="Cancel order"
+                                              title="Cancel order"
+                                              onclick="{! c.cancelOrder }"/>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</aura:component>

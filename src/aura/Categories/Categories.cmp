@@ -1,0 +1,34 @@
+<aura:component controller="CategoriesController"
+                implements="flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes" access="global">
+    <aura:attribute name="categories" type="Category__c[]"/>
+    <aura:attribute name="selectedId" type="Id" default="" />
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+    <aura:registerEvent name="categorySelected" type="c:CategorySelected"/>
+    <nav class="slds-nav-vertical" aria-label="Sub page">
+        <div class="slds-nav-vertical__section">
+            <h2 id="entity-header" class="slds-nav-vertical__title">Categories</h2>
+            <ul aria-describedby="entity-header">
+				<!--An example of how to make selected list active-->
+                <!--<li class="slds-nav-vertical__item slds-is-active">
+                    <a href="javascript:void(0);" class="slds-nav-vertical__action" aria-current="true">Recent
+                        <span class="slds-badge slds-col_bump-left">
+                            <span class="slds-assistive-text">:</span>3
+                              <span class="slds-assistive-text">New Items</span>
+                        </span>
+                    </a>
+                </li>-->
+                <aura:iteration items="{!v.categories}" var="category">
+                    <!--<li class="slds-nav-vertical__item">-->
+                    <li class="{!v.selectedId == category.Id ? 'slds-nav-vertical__item slds-is-active' : 'slds-nav-vertical__item' }">
+                        <a href="javascript:void(0);" id="{!category.Id}" onclick="{!c.clickOnCategory}"
+                           class="slds-nav-vertical__action">{!category.Name}
+                            <span class="slds-badge slds-col_bump-left">
+                                    {!category.Total_Quantity__c}
+                            </span>
+                        </a>
+                    </li>
+                </aura:iteration>
+            </ul>
+        </div>
+    </nav>
+</aura:component>
